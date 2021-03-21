@@ -16,7 +16,6 @@ class Solution:
             else:
                 out[i[0]] = [i[1]]
         for i,vv in h.items():
-            # print(i,vv)
             if len(h[i]) == N-1 and i not in out:
                     return i
         return -1
