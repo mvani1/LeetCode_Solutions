@@ -1,17 +1,15 @@
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        source = 0
         self.target = len(graph)-1
-        self.result = []
-        self.graph = graph
+        self.ans = []
+        def bs(curr,path,graph):
+            if curr == self.target:
+                
+                self.ans.append(path)
+                return path
+            for node in graph[curr]:
+                bs(node,path+[node],graph)
         path = [0]
-        self.back(0,path)
-        return self.result
-    
-    def back(self,curr,path):
-        if curr == self.target:
-            self.result.append(list(path))
-            return 
-        for nextnode in self.graph[curr]:
-            path.append(nextnode)
-            self.back(nextnode,path)
-            path.pop()
+        bs(source,path,graph)
+        return self.ans
