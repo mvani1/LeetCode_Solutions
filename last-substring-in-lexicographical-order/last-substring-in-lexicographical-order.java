@@ -1,17 +1,44 @@
 class Solution {
     public String lastSubstring(String s) {
-        int i = 0, j = 1, offset = 0, len = s.length();
-        while (i + offset < len && j + offset < len) {
-            char c = s.charAt(i + offset), d = s.charAt(j + offset);
-            if (c == d) {
-                ++offset;
-            }else {
-                if (c < d)  { i += offset + 1; } // chars in [i, ..., i + offset] <= charAt(i) == charAt(j)
-                else { j += offset + 1; } // c > d, chars in [j, ..., j + offset] <= charAt(i) == charAt(j)
-                if (i == j) { ++j; } // avoid duplicate start indices. 
-                offset = 0; // reset offset to 0.
+        if(s == null || s.length() < 2)
+            return s;
+        char[] chars = s.toCharArray();
+        int start = 0;
+        int i = 1;
+        
+        while(i < chars.length){
+            if(chars[start] > chars[i]){
+                i++;
+            }
+            else if(chars[start] < chars[i]){
+                start = i;
+                i++;
+            }
+            else{
+                int j = start;
+                int k = i;
+                while(k < chars.length && chars[j] == chars[k]){
+                    j++;
+                    k++;
+                }
+                if(k == chars.length)
+                    break;
+                if(chars[k] > chars[start]){
+                    start = k;
+                    i = k+1;
+                    continue;
+                }
+                if(chars[j] > chars[k]){
+                    i = k+1;
+                }
+                else{
+                    start = i;
+                    i++;
+                }
             }
         }
-        return s.substring(i);
+        
+        return s.substring(start);
     }
 }
+    
