@@ -1,10 +1,12 @@
 class Solution:
     def removeDuplicates(self, s: str, k: int) -> str:
-        count = 0
-        i=0
-        temp = s
-        for j in range(len(set(s))):
-            for i in set(s):
-                temp = temp.replace(k*i,"")
-        
-        return (temp)
+        ss = set(s)
+        c=10
+        for p in range(len(ss)):
+            if len(s)<k:
+                break
+            for i in ss:
+                s = s.replace(i*k,"")
+            # print(s,len(s))
+            c-=1
+        return(s)
