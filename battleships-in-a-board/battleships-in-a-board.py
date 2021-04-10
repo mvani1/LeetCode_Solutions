@@ -1,4 +1,5 @@
 class Solution:
+    
     def countBattleships(self, board: List[List[str]]) -> int:
         # print(board)
         c = 0
