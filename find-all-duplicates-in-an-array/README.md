@@ -1,3 +1,4 @@
+[Discussion Post (created on 13/3/2021 at 23:3)](https://leetcode.com/problems/find-all-duplicates-in-an-array/submissions/)  
 <h2>442. Find All Duplicates in an Array</h2><h3>Medium</h3><hr><div><p>Given an array of integers, 1 ≤ a[i] ≤ <i>n</i> (<i>n</i> = size of array), some elements appear <b>twice</b> and others appear <b>once</b>.</p>
 
 <p>Find all the elements that appear <b>twice</b> in this array.</p>
