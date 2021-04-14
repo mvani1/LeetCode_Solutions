@@ -1,8 +1,6 @@
 class Solution:
     def findDuplicates(self, nums: List[int]) -> List[int]:
-        fre_counter = {}
-        for i in nums:
-            fre_counter[i] = fre_counter.get(i,0)+1
-            if fre_counter[i] == 2:
+        ss = collections.Counter(nums)
+        for i,v in ss.items():
+            if v >1:
                 yield i
-        # print(fre_counter)
