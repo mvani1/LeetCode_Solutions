@@ -1,14 +1,11 @@
 class Solution:
     def countSubstrings(self, s: str) -> int:
-        res = 0
-        left, right = 0,len(s)
-        for i in range(len(s)):
-            right = len(s)
-            while left<=right:
-                pal = (s[left:right])
-                
-                if pal and pal == pal[::-1]:
-                    res+=1
-                right-=1
-            left+=1
-        return res
+        result = 0
+        length = len(s)
+        for i in range(length+1):
+            for j in range(i,length+1):
+                temp = s[i:j]
+                if temp == temp[::-1] and temp:
+                    result+=1
+                    
+        return result
