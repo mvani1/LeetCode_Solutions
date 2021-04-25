@@ -1,3 +1,4 @@
+[Discussion Post (created on 24/3/2021 at 22:49)](https://leetcode.com/problems/palindromic-substrings/solution/)  
 [Discussion Post (created on 13/3/2021 at 21:44)](https://leetcode.com/problems/palindromic-substrings/solution/)  
 <h2>647. Palindromic Substrings</h2><h3>Medium</h3><hr><div><p>Given a string, your task is to count how many palindromic substrings in this string.</p>
 
