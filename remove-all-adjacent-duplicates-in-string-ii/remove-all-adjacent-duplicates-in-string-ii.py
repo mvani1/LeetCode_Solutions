@@ -1,12 +1,15 @@
 class Solution:
     def removeDuplicates(self, s: str, k: int) -> str:
-        ss = set(s)
-        c=10
-        for p in range(len(ss)):
-            if len(s)<k:
-                break
-            for i in ss:
-                s = s.replace(i*k,"")
-            # print(s,len(s))
-            c-=1
-        return(s)
+        stack = []
+        for i in s:
+            if stack and stack[-1][0] == i:
+                stack[-1][1]+=1
+            else:
+                stack.append([i,1])
+            if stack and stack[-1][1] == k:
+                stack.pop()
+        res = ''
+        for i,v in stack:
+            res += i*v
+        return res
+            
