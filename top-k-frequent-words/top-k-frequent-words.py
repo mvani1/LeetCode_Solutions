@@ -1,46 +1,39 @@
 class TrieNode:
     def __init__(self):
-        self.children = [None for _ in range(26)]
-        self.word = None
+        self.children = {}
+        self.is_word = False
+        self.word = ''
+        self.freq = 0
         
-class Solution(object):
-    def topKFrequent(self, words, k):
-        """
-        :type words: List[str]
-        :type k: int
-        :rtype: List[str]
-        """
-        count = collections.Counter(words)
-        buckets = [TrieNode() for _ in range(len(words) + 1)]
-        for word in count:
-            root = buckets[count[word]]
-            self.add(word, root)
-        
-        res = []
-        for i in range(len(buckets) - 1, -1, -1):
-            if not buckets[i].children:
-                continue
-            self.getWord(res, buckets[i], k)
-            if len(res) >= k:
-                return res
-        return res
-    
-    def add(self, word, root):
+    def __lt__(self, other):
+        return self.freq > other.freq if self.freq != other.freq else self.word < other.word
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str) -> None:
+        root = self.root
         for c in word:
-            if root.children[ord(c) - ord("a")] == None:
-                root.children[ord(c) - ord("a")] = TrieNode()
-            root = root.children[ord(c) - ord("a")]
+            if c not in root.children:
+                root.children[c] = TrieNode()
+            root = root.children[c] 
+        root.is_word = True
         root.word = word
-        
-        
-    def getWord(self, res, root, k):
-        if not root:
-            return 
-        if len(res) >= k:
-            return 
-        if root.word:
-            res.append(root.word)
-        
-        for i in range(26):
-            self.getWord(res, root.children[i], k)
-        return 
+        root.freq += 1
+    
+    def topK(self, k):
+        q, pq = collections.deque([self.root]), []
+        while q:
+            node = q.popleft()
+            if node.is_word: heapq.heappush(pq, node)
+            for _, nxt in node.children.items():
+                q.append(nxt)
+        return heapq.nsmallest(k, pq)
+
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        trie = Trie()
+        for w in words:
+            trie.insert(w)
+        return [node.word for node in trie.topK(k)]
