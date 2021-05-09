@@ -1,3 +1,4 @@
+[Discussion Post (created on 9/4/2021 at 0:40)](https://leetcode.com/problems/first-unique-character-in-a-string/discuss/1198824/Python-one-pass-solution-without-HashMap-or-Counter)  
 <h2>387. First Unique Character in a String</h2><h3>Easy</h3><hr><div><p>Given a string <code>s</code>, return <em>the first non-repeating character in it and return its index</em>. If it does not exist, return <code>-1</code>.</p>
 
 <p>&nbsp;</p>
