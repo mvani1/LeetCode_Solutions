@@ -1,23 +1,18 @@
 class Codec:
     def __init__(self):
-        self.en_de = {}
+        self.lookup = []
+
     def encode(self, longUrl: str) -> str:
         """Encodes a URL to a shortened URL.
         """
-        alpha,digit = string.ascii_letters,string.digits
+        n = len(self.lookup)
+        self.lookup.append(longUrl)
+        return "http://tinyurl.com/" + str(n)
+    
         
-        encoded = "".join(random.sample(alpha+digit, 6))
-        
-        if encoded not in self.en_de:
-            self.en_de['http://tinyurl.com/'+encoded] = longUrl
-        return 'http://tinyurl.com/'+encoded
 
     def decode(self, shortUrl: str) -> str:
         """Decodes a shortened URL to its original URL.
         """
-        return (self.en_de.get(shortUrl))
-
-
-# Your Codec object will be instantiated and called as such:
-# codec = Codec()
-# codec.decode(codec.encode(url))
+        s = int(shortUrl.split('/')[-1])
+        return self.lookup[s]
