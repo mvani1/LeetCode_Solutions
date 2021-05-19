@@ -8,42 +8,28 @@
 
 class Solution:
     def copyRandomBinaryTree(self, root: 'Node') -> 'NodeCopy':
-        curr = dummy = Node()
-        if root is None:
-            return None
-        l1 = root
-        h = {}
+        '''
+        First:
+            Recursively traverse the given Binary and copy key value, 
+            left pointer and right pointer to clone tree. While copying, s
+            tore the mapping from given tree node to clone tree node in a hashtable. 
+            In the following pseudo code, ‘cloneNode’ is currently visited node of 
+            clone tree and ‘treeNode’ is currently visited node of given tree. 
+        TIME = O(n) 
+                Each traversal costs O(n)O(n) because we check every node once. 
+                We traverse the tree twice, which gives us O(n + n)= O(2n)O(n+n)=O(2n). 
+        Space = O(n)
+        
+        '''
+        hash = {}
         def traverse(root):
-            if root is None:return 
-            h[root] = NodeCopy(root.val)
-            traverse(root.left)
-            traverse(root.right)
-        traverse(root)
-        def traver(root):
-            if root is None:return
-            if root.left:
-                h[root].left = h[root.left]
-            if root.right:
-                h[root].right = h[root.right]
-            if root.random:
-                h[root].random = h[root.random]
-            traver(root.left)
-            traver(root.right)
-        traver(l1)   
-            
-                
-#         level = [root]
-#         while level: 
-#             next_leve =[]
-#             for node in level:
-#                 if node.left:
-#                     h[node].left = h[node.left]
-#                     next_leve.append(node.left)
-#                 if node.right:
-#                     h[node].right = h[node.right]
-#                     next_leve.append(node.right)
-#                 if node.random:
-#                     h[node].random = h[node.random]
-#             level = next_leve
-        return h[root]
-                
+            if not root:return
+            if root in hash:return hash[root]
+            newRoot = NodeCopy(root.val)
+            hash[root] = newRoot
+            newRoot.left = traverse(root.left)
+            newRoot.right = traverse(root.right)
+            newRoot.random = traverse(root.random)
+            return newRoot
+        return traverse(root)
+       
