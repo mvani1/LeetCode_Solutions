@@ -19,17 +19,41 @@ class Solution:
                 Each traversal costs O(n)O(n) because we check every node once. 
                 We traverse the tree twice, which gives us O(n + n)= O(2n)O(n+n)=O(2n). 
         Space = O(n)
+        Code: 
+            hash = {}
+            def traverse(root):
+                if not root:return
+                if root in hash:return hash[root]
+                newRoot = NodeCopy(root.val)
+                hash[root] = newRoot
+                newRoot.left = traverse(root.left)
+                newRoot.right = traverse(root.right)
+                newRoot.random = traverse(root.random)
+                return newRoot
+            return traverse(root)
+        Optimal:
+
+            1. Modify the tree by creating NodeCopy nodes by making copy 
+                of the actual nodes data and keeping that at the left.
+            2. Now to populate the random pointer of the NodeCopy tree we
+            3. copyNode.random = root.random.left
+            4. Now decouple the two trees
+        Time = O(n)
+        Space Complexity  = O(1)
         
         '''
-        hash = {}
-        def traverse(root):
+        def rootCopy(root):
             if not root:return
-            if root in hash:return hash[root]
-            newRoot = NodeCopy(root.val)
-            hash[root] = newRoot
-            newRoot.left = traverse(root.left)
-            newRoot.right = traverse(root.right)
-            newRoot.random = traverse(root.random)
-            return newRoot
-        return traverse(root)
-       
+            clone = NodeCopy(root.val,rootCopy(root.left),rootCopy(root.right),root.random)
+            root.random = clone
+            return clone
+        def populateRandomPointer(node):
+            if not node :return
+            populateRandomPointer(node.left)
+            populateRandomPointer(node.right)
+            if node.random:
+                node.random = node.random.random
+            else:
+                node.random = None
+            return node
+        return populateRandomPointer(rootCopy(root))
