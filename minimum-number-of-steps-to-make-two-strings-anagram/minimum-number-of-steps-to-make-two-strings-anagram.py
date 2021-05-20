@@ -1,11 +1,15 @@
 class Solution:
     def minSteps(self, s: str, t: str) -> int:
-        if len(s)!= len(t):
-            return 0
-        ss = collections.Counter(s)
-        c=0
-        for i in t:
-            ss[i] = ss.get(i,0)-1
-            if ss[i]<0:
-                c+=1
-        return c
+        '''
+        Time: O(n), space: O(1) n = len(s)+len(t)
+        '''
+        sss = set(s+t)
+        ret = 0
+        for c in sss:
+            # c = chr(ord('a') + i)
+            sc = s.count(c)
+            tc = t.count(c)
+            if sc > tc:
+                ret += sc - tc
+        
+        return ret
