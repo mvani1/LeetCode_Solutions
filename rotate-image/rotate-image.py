@@ -6,6 +6,7 @@ class Solution:
         self.transpose(matrix)
         for i in range(len(matrix)):
             matrix[i].reverse()
+            
     def transpose(self, matrix):
         n = len(matrix)
         for i in range(n):
