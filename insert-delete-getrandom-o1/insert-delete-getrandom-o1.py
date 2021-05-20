@@ -5,12 +5,14 @@ class RandomizedSet:
         Initialize your data structure here.
         """
         self.set = []
+        self.freq = {}
 
     def insert(self, val: int) -> bool:
         """
         Inserts a value to the set. Returns true if the set did not already contain the specified element.
         """
-        if val not in self.set:
+        if not self.freq.get(val,0):
+            self.freq[val] = self.freq.get(val,0)+1
             self.set.append(val)
             return True
         return False
@@ -19,11 +21,11 @@ class RandomizedSet:
         """
         Removes a value from the set. Returns true if the set contained the specified element.
         """
-        if val in self.set:
+        if self.freq.get(val,0):
+            del self.freq[val]
             self.set.remove(val)
             return True
         return False
-        
 
     def getRandom(self) -> int:
         """
