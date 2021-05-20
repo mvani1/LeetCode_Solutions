@@ -1,4 +1,12 @@
 class Solution:
+    
+
     def frequencySort(self, s: str) -> str:
-        freq = collections.Counter(s)
-        return "".join(sorted(s,key=lambda x : (-freq[x],x)))
+        c = collections.Counter(s)
+        
+        finalStr = ""
+        for e in c.most_common():
+            
+            finalStr += e[0] * e[1]
+            
+        return finalStr
