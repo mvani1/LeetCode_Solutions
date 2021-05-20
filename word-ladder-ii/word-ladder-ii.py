@@ -12,8 +12,9 @@ class Solution:
                     res.extend(k for k in layer[w])
                 else:
                     for i in range(len(w)):
+                        left ,right = w[:i],w[i+1:]
                         for c in 'abcdefghijklmnopqrstuvwxyz':
-                            neww = w[:i]+c+w[i+1:]
+                            neww = left + c + right
                             if neww in wordList:
                                 newlayer[neww]+=[j+[neww] for j in layer[w]]
 
