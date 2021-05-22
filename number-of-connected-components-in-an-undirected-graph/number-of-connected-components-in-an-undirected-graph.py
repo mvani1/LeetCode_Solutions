@@ -1,31 +1,27 @@
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        graph = {x:[] for x in range(n)}
+        visited = [0 for _ in range(n)]
+        adj = defaultdict(list)
+        dfs = []
+        ans = count = 0
         
-        for i,v in edges:
-            graph[i].append(v)
-            graph[v].append(i)
+        # creating adjency list
+        for v,e in edges:
+            adj[v].append(e)
+            adj[e].append(v)
         
-        visited = [0] * (n+1)
-        count = 0
-        
-        for i in graph:
+        # depth first Search
+        for i in range(n):
             if not visited[i]:
-                self.dfs(graph,visited,i)
-                count+=1
-        return count
-    
-    def dfs(self,graph,visited,n):
-        if visited[n]:
-            return
-        visited[n]=1
-        for i in graph[n]:
-            if not visited[i]:
-                self.dfs(graph,visited,i)
-            
-        
+                ans +=1
+                dfs.append(i)
                 
-        
-        
-        
-        
+                while dfs: 
+                    curr = dfs.pop()
+                    visited[curr] = 1
+                    
+                    # check every neighbor of current node
+                    for neigh in adj[curr]:
+                        if not visited[neigh]:
+                            dfs.append(neigh)
+        return ans
