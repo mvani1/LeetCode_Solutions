@@ -1,13 +1,20 @@
 class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:
-        if matrix is None:return 
+        """
+        Time = O(n*m)
+        Space =O(n)
+        """
+        if len(matrix) == 0:
+            return 0
+    
+        n, m = len(matrix), len(matrix[0])
         
-        rows,cols = len(matrix),len(matrix[0])
-        dp = [[0]*(cols+1) for _ in range(rows+1)]
-        maxx = 0
-        for r in range(rows):
-            for c in range(cols):
-                if matrix[r][c]=='1':
-                    dp[r][c] = min(dp[r-1][c],dp[r-1][c-1],dp[r][c-1]) + 1
-                    maxx = max(maxx,dp[r][c])
-        return maxx*maxx
+        dp = [[0 for i in range(m+1)] for j in range(n+1)]
+        
+        max_square = 0
+        for i in range(1, n+1):
+            for j in range(1, m+1):
+                if matrix[i-1][j-1] == "1":
+                    dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1
+                    max_square = max(max_square, dp[i][j])    
+        return max_square ** 2
