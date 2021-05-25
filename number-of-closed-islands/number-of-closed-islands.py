@@ -1,31 +1,26 @@
 class Solution:
     def closedIsland(self, grid: List[List[int]]) -> int:
-        numIslands = 0
-
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
+        '''
+        CHange all the 0 to -1 and the global variable 
+        Time = O(n*m) 
+        Space = O(1)
+        '''
+        m, n = len(grid), len(grid[0])
+        res = 0
+        
+        def dfs(x, y):
+            if x in (0, m-1) or y in (0, n-1):
+                self.isIsland = False 
+            for i, j in ((x+1, y), (x-1, y), (x, y+1), (x, y-1)):
+                if 0 <= i < m and 0 <= j < n and grid[i][j] == 0:
+                    grid[i][j] = -1 
+                    dfs(i, j)
+                    
+        for i in range(m):
+            for j in range(n):
                 if grid[i][j] == 0:
-                    isIsland = [True]
-                    self.search(i, j, grid, isIsland)
-                    if isIsland[0]:
-                        numIslands += 1
-
-        return numIslands
-    
-    
-    def search(self, i, j, grid, isIsland):
-        # out of bounds or not even a 0 anymore
-        if i < 0 or j < 0 or i > len(grid) or j > len(grid[i]) or grid[i][j] == 1:
-            return
-
-        # if you are on the perimeter and you have a 0, then you cannot be surrounded by 1s, therefore stop
-        if i == 0 or j == 0 or i == len(grid) - 1 or j == len(grid[i]) - 1 and grid[i][j] == 0:
-            isIsland[0] = False
-            return
-
-        grid[i][j] = 1
-
-        self.search(i + 1, j, grid, isIsland)
-        self.search(i - 1, j, grid, isIsland)
-        self.search(i, j + 1, grid, isIsland)
-        self.search(i, j - 1, grid, isIsland)
+                    self.isIsland = True
+                    dfs(i, j)
+                    res += self.isIsland
+                    
+        return res 
