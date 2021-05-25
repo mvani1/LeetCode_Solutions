@@ -5,30 +5,26 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def __init__(self):
-        self.out = []
     def delNodes(self, root: TreeNode, to_delete: List[int]) -> List[TreeNode]:
-        if root.val not in to_delete and root not in self.out:
-            self.out.append(root)
-        queue = [root]
-
+        queue = collections.deque([(root, False)])
+        res = []
+        deleteSet = set(to_delete)
+        
         while queue:
-            node = queue.pop(0)
-            if node.val in to_delete:
-                if node.left:
-                    self.delNodes(node.left,to_delete)
-                if node.right:
-                    self.delNodes(node.right,to_delete)
+            node, hasParent = queue.popleft()
+            # new Root found
+            if not hasParent and node.val not in to_delete:
+                res.append(node)
                 
-            if node.left:
-                queue.append(node.left)
+            hasParent = not node.val in to_delete
+
+            if node.left: 
+                queue.append((node.left, hasParent))
                 if node.left.val in to_delete:
                     node.left = None
-                    
             if node.right:
-                queue.append(node.right)
+                queue.append((node.right, hasParent))
                 if node.right.val in to_delete:
                     node.right = None
-        return self.out
             
-                
+        return res
