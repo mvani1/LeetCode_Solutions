@@ -6,15 +6,15 @@
 #         self.right = right
 class Solution:
     def allPossibleFBT(self, n: int) -> List[TreeNode]:
-        if not n&1 : return []
-        if n == 1:
-            return [TreeNode(0)]
-        ans = []        
+        ans = []
+        if not n&1: return ans
+        if n==1:return [TreeNode(0)]
         for i in range(1,n,2):
-            for l in self.allPossibleFBT(i):
-                for r in self.allPossibleFBT(n-i-1):
+            for left in self.allPossibleFBT(i):
+                for right in self.allPossibleFBT(n-i-1):
                     root = TreeNode(0)
-                    root.left = l
-                    root.right = r
+                    root.left = left
+                    root.right = right
                     ans.append(root)
         return ans
+        
