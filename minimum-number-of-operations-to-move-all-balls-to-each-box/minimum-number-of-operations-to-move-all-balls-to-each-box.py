@@ -1,15 +1,14 @@
 class Solution:
     def minOperations(self, boxes: str) -> List[int]:
-        findZeroes = [i for i,v in enumerate(boxes)]
-        ans = [int(i) for i in boxes]
+        n = len(boxes)
+        left,right,lc,rc = [0 for _ in range(n)],[0 for _ in range(n)],[0 for _ in range(n)],[0 for _ in range(n)]
         
-        def findOp(initial):
-            ans = 0
-            for i,v in enumerate(boxes):
-                if i == initial : continue
-                if v == '1':
-                    ans += (abs(initial-i))
-            return ans
-        for i in findZeroes:
-            ans[i] = findOp(i)
-        return (ans)
+        for i in range(1,n):
+            left[i] = int(boxes[i-1])+left[i-1]
+            lc[i] = left[i]+lc[i-1]
+            
+        for i in range(n-2,-1,-1):
+            right[i] = int(boxes[i+1])+right[i+1]
+            rc[i] = right[i]+rc[i+1]
+            
+        return list(map(lambda x,y:x+y,lc,rc))        
