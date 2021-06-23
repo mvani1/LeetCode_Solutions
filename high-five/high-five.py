@@ -1,22 +1,16 @@
 class Solution:
     def highFive(self, items: List[List[int]]) -> List[List[int]]:
-        dic =  {}  
-        
-        for item in items:
-            if item[0] in dic:
-                dic[item[0]].append(item[1])
-            else:
-                dic[item[0]] = [item[1]]
-        
-        def sort_avg(list):   
-            list = sorted(list, reverse = True)
-            return int(sum(list[0:5])/5)
-        
-        final = []
-        
-        for item in dic:  
-            final.append([item, sort_avg(dic[item])])
-        final.sort()
-        return final
-        
-        
+        d = defaultdict(list)
+        for id,marks in items:
+            d[id].append(-marks)
+        res = []
+        for i,v in d.items():
+            heapq.heapify(v)
+            sums = 0
+            for j in range(5):
+                sums += (-1*heapq.heappop(v))
+                
+            res.append([i,sums//5])
+        res.sort()
+        return res
+                
