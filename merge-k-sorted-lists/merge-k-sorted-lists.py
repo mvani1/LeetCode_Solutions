@@ -5,18 +5,25 @@
 #         self.next = next
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        # if not lists:return []
-        heap = []
-        for i in lists:
-            l1=i
-            while l1:
-                heapq.heappush(heap,l1.val)
-                l1=l1.next
-        curr = dummy = ListNode('#')
-        while heap:
-            new_node = ListNode(heapq.heappop(heap))
-            curr.next = new_node
-            curr = curr.next
-        return (dummy.next)
+        if not lists:
+            return None
+        while len(lists)!=1:
+            lists.append(self.merge2lists(lists.pop(),lists.pop()))
         
-                                
+        return lists[0]
+            
+    def merge2lists(self,l1,l2):
+        # if l1 == [] and l2.val != []:
+        #     return l2
+        # elif l2.val == [] and l1.val!=[]:
+        #     return l1
+        if not l1:
+            return l2
+        elif not l2:
+            return l1
+        elif l1.val < l2.val:
+            l1.next = self.merge2lists(l1.next,l2)
+            return l1
+        else:
+            l2.next = self.merge2lists(l1,l2.next)
+            return l2
