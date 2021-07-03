@@ -1,19 +1,20 @@
-import threading,time
+import threading
 class BoundedBlockingQueue(object):
 
     def __init__(self, capacity: int):
-        self.lock = threading.Semaphore(capacity)
-        self.q = deque()
-        
+        self.enq = threading.Semaphore(capacity)
+        self.deq = threading.Semaphore(0)
+        self.queue = deque()
 
     def enqueue(self, element: int) -> None:
-        with self.lock:
-            self.q.append(element)
+        self.enq.acquire()
+        self.queue.append(element)
+        self.deq.release()
 
     def dequeue(self) -> int:
-        while not self.q:
-            time.sleep(0.1)
-        return self.q.popleft()
-
+        self.deq.acquire()
+        ele = self.queue.popleft()
+        self.enq.release()
+        return ele
     def size(self) -> int:
-        return len(self.q) # self.size
+        return len(self.queue)
