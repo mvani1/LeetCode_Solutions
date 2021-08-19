@@ -1,17 +1,31 @@
 class Solution:
     def decodeString(self, s: str) -> str:
-        digits = re.findall('\d*',s)
-        digits = list(filter(None, digits))
-        for i in range(len(s)-1,-1,-1):
-            if s[i] in ['0','1','2','3','4','5','6','7','8','9']:
-                j=i+2
-                res = ''
-                while j<len(s) and s[j]!=']':
-                    res+=s[j]
-                    j+=1
-                ss = digits.pop()
-                
-                new_res = (int(ss)*res)
-                s = s.replace(ss+s[i+1:j+1],new_res)
-        return (s)
-            
+        if not s:return s
+        stack = []
+        string = ""
+        final = ""
+        open =1
+        for i in s:
+            if i =='[':
+                open += 1
+            if i == ']':
+                temp = ""
+                while stack and not stack[-1].isdigit():
+                    popped = stack.pop()
+                    if popped == '[': continue
+                    temp = popped + temp
+                digit = ""
+                while stack:
+                    popped = stack.pop()
+                    if not popped.isdigit():
+                        stack.append(popped)
+                        break
+                    else:
+                        digit = popped + digit
+                if open:
+                    stack.append(temp * int(digit))
+                else:
+                    final = temp * digit
+            else:
+                stack.append(i)
+        return "".join(stack)
