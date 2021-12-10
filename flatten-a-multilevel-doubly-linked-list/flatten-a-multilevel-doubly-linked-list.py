@@ -9,32 +9,19 @@ class Node:
 """
 
 class Solution:
-    def flatten(self, head: 'Node') -> 'Node':
-        ref = head
-        child_stack = []
-        nxt_stack = []       
-        while ref:
-
-            if ref.child:
-                child_stack.append(ref.child)
-                if ref.next is not None:
-                    nxt_stack.append(ref.next)
-            
-            if child_stack:
-                temp = child_stack.pop(0)
-                ref.child = None
-                temp.prev = ref
-                ref.next = temp
-                
-            if ref.next is None:
-                if nxt_stack:
-                    temp1 = nxt_stack.pop()
-                    temp1.prev = ref
-                    ref.next = temp1
-                    # ref=ref.next   
-            ref = ref.next
-            
+    def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        curr = head
+        while curr:
+            if curr.child:
+                temp = curr.next
+                new_next = curr.child
+                curr.next = curr.child
+                curr.child.prev = curr
+                curr.child = None
+                while new_next.next:
+                    new_next = new_next.next
+                new_next.next = temp
+                if temp:
+                    temp.prev = new_next
+            curr = curr.next
         return head
-                
-            
-            
